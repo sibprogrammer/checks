@@ -15,6 +15,7 @@
       %tr
         %th Host
         %th State
+        %th Date
       - @hosts.each do |host|
         %tr
           %td= host[:host]
@@ -25,3 +26,4 @@
               %span{ :class => "label label-important" } FAIL
             - else
               &nbsp;
+          %td= host[:time]

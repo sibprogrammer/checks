@@ -10,6 +10,10 @@ def get_status(host_id)
   [status, check['timestamp']]
 end
 
+def human_time(timestamp)
+  Time.at(timestamp).strftime('%Y-%m-%d %H:%M:%S')
+end
+
 before do
   @db = Mongo::Connection.new.db('checks')
 end
@@ -21,7 +25,7 @@ get '/' do
     @hosts << { 
       :host => host['host'],
       :status => status,
-      :timestamp => check_timestamp,
+      :time => human_time(check_timestamp),
     }
   end
 
