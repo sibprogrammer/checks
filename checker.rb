@@ -12,8 +12,8 @@ end
 def ping(host)
   log "ping #{host}"
   socket = TCPSocket.open('127.0.0.1', 6000)
-  socket.print({ :ip => host }.to_json)
-  response = JSON.parse(socket.read)
+  socket.puts({ :ip => host }.to_json)
+  response = JSON.parse(socket.gets)
   'ok' == response['result']
 end
 
