@@ -30,6 +30,5 @@ loop do
     })
   end
 
-  log "Sleeping..."
-  sleep 5
+  sleep 10
 end
