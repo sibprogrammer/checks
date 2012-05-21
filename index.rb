@@ -25,7 +25,7 @@ get '/' do
     @hosts << { 
       :host => host['host'],
       :status => status,
-      :time => human_time(check_timestamp),
+      :time => '-' == check_timestamp ? '-' : human_time(check_timestamp),
     }
   end
 
