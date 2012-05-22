@@ -19,7 +19,7 @@ def get_checks_result(host)
     :total => @db.collection('checks').find({ 'host_id' => host['_id'] }).count,
     :failed => @db.collection('checks').find({ 'host_id' => host['_id'], 'status' => false }).count
   }
-  checks[:uptime] = (checks[:total] - checks[:failed]) * 100 / checks[:total]
+  checks[:uptime] = 0 == checks[:total] ? 0 : (checks[:total] - checks[:failed]) * 100 / checks[:total]
   checks
 end
 
