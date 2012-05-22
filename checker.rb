@@ -52,10 +52,10 @@ loop do
     end
   end
 
-  sleep 2
+  sleep 10
   count += 1
 
-  if count > 5
+  if count > 100
     log "close old connections"
     sockets.each{ |socket| socket.close }
     count = 0
