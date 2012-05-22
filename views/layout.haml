@@ -1,0 +1,19 @@
+!!!
+%head
+  %meta{ :charset => 'utf-8' }
+  %title Checks
+  %link{ :href => '/css/bootstrap.css', :rel => 'stylesheet' }
+  %style{ :type => 'text/css' } body { padding-top: 60px; padding-bottom: 40px; }
+%body
+  .navbar.navbar-fixed-top
+    .navbar-inner
+      .container
+        .brand Checks
+        .nav-collapse
+          %ul.nav
+            %li
+              %a{ :href => "/" } Hosts
+            %li
+              %a{ :href => "/agents" } Agents
+
+  .container= yield

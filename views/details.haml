@@ -1,0 +1,12 @@
+%h1.page-header= "Host #{@host['host']}"
+
+%table.table.table-striped.table-bordered
+  %tr
+    %th Total
+    %th Failed
+    %th Uptime
+  %tr
+    %td= @checks[:total]
+    %td= @checks[:failed]
+    %td= "#{@checks[:uptime]}%"
+

@@ -1,0 +1,10 @@
+%h1.page-header Agents
+
+%table.table.table-striped.table-bordered
+  %tr
+    %th IP
+    %th Description
+  - @agents.each do |agent|
+    %tr
+      %td= agent['ip']
+      %td= agent['description']
