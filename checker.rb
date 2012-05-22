@@ -38,7 +38,7 @@ loop do
   sockets.each do |socket|
     db.collection('hosts').find.each do |host|
       begin
-        log "agent: #{socket.addr.last}"
+        log "agent: #{socket.peeraddr.last}"
         result = ping(socket, host['ip'])
         log "ping result: #{result}"
         db.collection('checks').insert({
