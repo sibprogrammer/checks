@@ -25,6 +25,7 @@ end
 
 before do
   @db = Mongo::Connection.new.db('checks')
+  @project_title = 'Checks'
 end
 
 get '/' do

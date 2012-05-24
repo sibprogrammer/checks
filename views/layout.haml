@@ -1,14 +1,14 @@
 !!!
 %head
   %meta{ :charset => 'utf-8' }
-  %title Checks
+  %title= @project_title
   %link{ :href => '/css/bootstrap.css', :rel => 'stylesheet' }
   %style{ :type => 'text/css' } body { padding-top: 60px; padding-bottom: 40px; }
 %body
   .navbar.navbar-fixed-top
     .navbar-inner
       .container
-        .brand Checks
+        .brand= @project_title
         .nav-collapse
           %ul.nav
             %li
