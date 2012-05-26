@@ -1,12 +1,27 @@
 %h1.page-header= "Host #{@host['host']}"
 
+%h3 Overview
+
 %table.table.table-striped.table-bordered
   %tr
-    %th Total
-    %th Failed
+    %th Total Checks
+    %th Failed Checks
     %th Uptime
   %tr
     %td= @checks[:total]
     %td= @checks[:failed]
     %td= "#{@checks[:uptime]}%"
 
+%h3 Failures longer than 1 min
+
+%table.table.table-striped.table-bordered
+  %tr
+    %th From Time
+    %th To Time
+    %th Duration
+  - @failures.each do |failure|
+    - next if failure[:duration] < 60
+    %tr
+      %td= Time.at(failure[:from]).strftime('%Y.%m.%d %H:%M:%S')
+      %td= Time.at(failure[:to]).strftime('%Y.%m.%d %H:%M:%S')
+      %td= "%d min" % (failure[:duration] / 60)

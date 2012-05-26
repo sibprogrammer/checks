@@ -17,9 +17,14 @@ end
 def get_checks_result(host)
   checks = {
     :total => @db.collection('checks').find({ 'host_id' => host['_id'] }).count,
-    :failed => @db.collection('checks').find({ 'host_id' => host['_id'], 'status' => false }).count
+    :failed => @db.collection('checks').find({ 'host_id' => host['_id'], 'status' => false }).count,
+    :uptime => 0,
   }
-  checks[:uptime] = 0 == checks[:total] ? 0 : (checks[:total] - checks[:failed]) * 100 / checks[:total]
+
+  if checks[:total] > 0
+    checks[:uptime] = "%.2f" % ((checks[:total].to_f - checks[:failed]) * 100 / checks[:total])
+  end
+
   checks
 end
 
@@ -52,5 +57,20 @@ end
 get '/details' do
   @host = @db.collection('hosts').find_one({ 'ip' => params[:ip] })
   @checks = get_checks_result(@host)
+
+  failed_checks = @db.collection('checks').find({ 'host_id' => @host['_id'], 'status' => false }).sort(['timestamp', 'descending']).limit(100)
+  @failures = []
+  failed_check = failed_checks.first
+  failure = { :from => failed_check['timestamp'], :to => failed_check['timestamp'], :duration => 10 }
+  failed_checks.each do |failed_check|
+    if failure[:from] - failed_check['timestamp'] < 60
+      failure[:duration] += failure[:from] - failed_check['timestamp']
+      failure[:from] = failed_check['timestamp']
+    else
+      @failures << failure
+      failure = { :from => failed_check['timestamp'], :to => failed_check['timestamp'], :duration => 10 }
+    end
+  end
+
   haml :details, :format => :html5
 end
