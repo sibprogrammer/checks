@@ -60,15 +60,19 @@ get '/details' do
 
   failed_checks = @db.collection('checks').find({ 'host_id' => @host['_id'], 'status' => false }).sort(['timestamp', 'descending']).limit(100)
   @failures = []
+
   failed_check = failed_checks.first
-  failure = { :from => failed_check['timestamp'], :to => failed_check['timestamp'], :duration => 10 }
-  failed_checks.each do |failed_check|
-    if failure[:from] - failed_check['timestamp'] < 60
-      failure[:duration] += failure[:from] - failed_check['timestamp']
-      failure[:from] = failed_check['timestamp']
-    else
-      @failures << failure
-      failure = { :from => failed_check['timestamp'], :to => failed_check['timestamp'], :duration => 10 }
+
+  if failed_check
+    failure = { :from => failed_check['timestamp'], :to => failed_check['timestamp'], :duration => 10 }
+    failed_checks.each do |failed_check|
+      if failure[:from] - failed_check['timestamp'] < 60
+        failure[:duration] += failure[:from] - failed_check['timestamp']
+        failure[:from] = failed_check['timestamp']
+      else
+        @failures << failure
+        failure = { :from => failed_check['timestamp'], :to => failed_check['timestamp'], :duration => 10 }
+      end
     end
   end
 
